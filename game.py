@@ -95,7 +95,7 @@ pipe_sunface= pygame.transform.scale2x(pipe_sunface)
 pipe_list= []
 # tạo timer cho ong
 spawnpipe = pygame.USEREVENT
-pygame.time.set_timer(spawnpipe, 900)
+pygame.time.set_timer(spawnpipe, 1500)
 pipe_height = [150,200,300,400,250,350,450,500,530]
 #end game
 game_over_sunface= pygame.image.load('assets/message.png').convert_alpha()
