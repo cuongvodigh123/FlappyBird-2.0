@@ -4,9 +4,10 @@ try:
     
     import pygame, sys, random, time,threading   
     def delay_dead():
-        
-        
+
         screen.blit(gameover,gameover_sunface)
+        screen.blit(floor,(floor_x,650))
+        screen.blit(floor,(floor_x+672,650)) 
         pygame.event.pump()
         pygame.display.flip()
         pygame.time.delay(1000)
@@ -61,8 +62,13 @@ try:
         #chim 2
         new_bird_rect1 = new_bird.get_rect(center= (bird_rect1.centerx,bird_rect1.centery))
         return new_bird, new_bird_rect, new_bird1, new_bird_rect1
-    def check_collision(pipes):
+    def check_collision(pipes,boms):
         global bird_movement
+        for bom in boms:
+            if bird_rect.colliderect(bom):
+                hit_sound.play()
+                bird_movement=1
+                return False
         for pipe in pipes:
             if bird_rect.colliderect(pipe):
                 hit_sound.play()
@@ -73,8 +79,13 @@ try:
                 bird_movement=1
                 return False
         return True
-    def check_collision1(pipes):
+    def check_collision1(pipes,boms):
         global bird_movement1
+        for bom in boms:
+            if bird_rect1.colliderect(bom):
+                hit_sound.play()
+                bird_movement1=1
+                return False
         for pipe in pipes:
             if bird_rect1.colliderect(pipe):
                 hit_sound.play()
@@ -180,7 +191,7 @@ try:
     gameover_sunface=gameover.get_rect(center=(400,400))
     
     tamdung=pygame.image.load('assets/pause.jpg').convert()
-    tamdung=pygame.transform.scale2x(tamdung)
+    # tamdung=pygame.transform.scale2x(tamdung)
     tamdung_sunface=tamdung.get_rect(center=(400,400))
     
     
@@ -290,9 +301,9 @@ try:
                 
                 
                 if bird_alive:
-                    bird_alive=check_collision(pipe_list)
+                    bird_alive=check_collision(pipe_list,bom_list)
                 if bird_alive1:
-                    bird_alive1=check_collision1(pipe_list)
+                    bird_alive1=check_collision1(pipe_list,bom_list)
                 if bird_alive==False and bird_alive1==False:
                     delay_dead()
                     game_active=False
