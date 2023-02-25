@@ -51,7 +51,10 @@ try:
             else:
                 flip_pipe = pygame.transform.flip(pipe_sunface,False,True)
                 screen.blit(flip_pipe,pipe)
-    def rotate_bird(bird1):
+    def rotate_bird(bird):
+        new_bird = pygame.transform.rotozoom(bird,-bird_movement*4,1)
+        return new_bird          
+    def rotate_bird1(bird1):
         new_bird = pygame.transform.rotozoom(bird1,-bird_movement*4,1)
         return new_bird
     def bird_animation():
@@ -107,7 +110,7 @@ try:
             screen.blit(score_sunface,score_rect)
 
             hight_score_sunface = game_font.render(f'Hight Score: {int(hight_score)}',True,(255,255,255))
-            hight_score_rect = hight_score_sunface.get_rect(center=(200,620))
+            hight_score_rect = hight_score_sunface.get_rect(center=(430,620))
             screen.blit(hight_score_sunface,hight_score_rect)
     def update_score(score,hight_score):
         if score > hight_score:
@@ -134,7 +137,7 @@ try:
 
     message_sunface = pygame.image.load('assets/message.png').convert_alpha()
     message_sunface = pygame.transform.scale2x(message_sunface)
-    message=message_sunface.get_rect(center=(216,374))
+    message=message_sunface.get_rect(center=(432,374))
 
     bg= pygame.image.load('assets/background-night.png').convert()
     bg = pygame.transform.scale2x(bg)
@@ -236,7 +239,7 @@ try:
                             bird_rect1.center=(100,354)
                         # bird 0
                         if event.key == pygame.K_SPACE and game_active and bird_alive:
-                            print("space")
+
                             bird_movement=0
                             bird_movement-=2
                             flap_sound.play()
