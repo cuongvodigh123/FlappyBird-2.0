@@ -4,7 +4,6 @@ try:
     
     import pygame, sys, random, time,threading   
     def delay_dead():
-
         screen.blit(gameover,gameover_sunface)
         screen.blit(floor,(floor_x,650))
         screen.blit(floor,(floor_x+672,650)) 
@@ -61,23 +60,26 @@ try:
         # chim 1
         new_bird = bird_list[bird_index]
         new_bird_rect = new_bird.get_rect(center= (bird_rect.centerx,bird_rect.centery))
-        new_bird1 = bird_list1[bird_index]
         #chim 2
-        new_bird_rect1 = new_bird.get_rect(center= (bird_rect1.centerx,bird_rect1.centery))
+        new_bird1 = bird_list1[bird_index]
+        new_bird_rect1 = new_bird1.get_rect(center= (bird_rect1.centerx,bird_rect1.centery))
+        
         return new_bird, new_bird_rect, new_bird1, new_bird_rect1
     def check_collision(pipes,boms):
         global bird_movement
         for bom in boms:
             if bird_rect.colliderect(bom):
+                # pass
                 hit_sound.play()
                 bird_movement=1
                 return False
         for pipe in pipes:
             if bird_rect.colliderect(pipe):
+                # pass
                 hit_sound.play()
                 bird_movement=1
                 return False
-            elif bird_rect.top <= -0 or bird_rect.bottom >=650:
+        if bird_rect.colliderect(floor_top_sunface) or bird_rect.colliderect(floor_bot_sunface):
                 hit_sound.play()
                 bird_movement=1
                 return False
@@ -86,15 +88,17 @@ try:
         global bird_movement1
         for bom in boms:
             if bird_rect1.colliderect(bom):
+                # pass
                 hit_sound.play()
                 bird_movement1=1
                 return False
         for pipe in pipes:
             if bird_rect1.colliderect(pipe):
+                # pass
                 hit_sound.play()
                 bird_movement1=1
                 return False
-            elif bird_rect1.top <= -0 or bird_rect1.bottom >=650:
+        if bird_rect1.colliderect(floor_top_sunface) or bird_rect1.colliderect(floor_bot_sunface):
                 hit_sound.play()
                 bird_movement1=1
                 return False
@@ -104,10 +108,19 @@ try:
             score_sunface = game_font.render(str(int(score)),True,(255,255,0))
             score_rect = score_sunface.get_rect(center=(200,100))
             screen.blit(score_sunface,score_rect)
+            
+            score_sunface1 = game_font.render(str(int(score1)),True,(255,0,0))
+            score_rect1 = score_sunface1.get_rect(center=(650,100))
+            screen.blit(score_sunface1,score_rect1)
+            
         if state== 'game over':
             score_sunface = game_font.render(f'Score: {int(score)}',True,(255,255,0))
             score_rect = score_sunface.get_rect(center=(200,100))
             screen.blit(score_sunface,score_rect)
+            
+            score_sunface1 = game_font.render(f'Score: {int(score1)}',True,(255,0,0))
+            score_rect1 = score_sunface1.get_rect(center=(650,100))
+            screen.blit(score_sunface1,score_rect1)
 
             hight_score_sunface = game_font.render(f'Hight Score: {int(hight_score)}',True,(255,255,255))
             hight_score_rect = hight_score_sunface.get_rect(center=(430,620))
@@ -115,6 +128,8 @@ try:
     def update_score(score,hight_score):
         if score > hight_score:
             hight_score=score
+        if score1 > hight_score:
+            hight_score=score1
         return hight_score
     def unpause():
         global pause
@@ -130,6 +145,8 @@ try:
     game_font = pygame.font.Font('04B_19.ttf',40)
 
     score = 0
+    score1 = 0
+    
     hight_score=0
     gravity = 0.09
     bird_movement = 0
@@ -194,10 +211,13 @@ try:
     gameover_sunface=gameover.get_rect(center=(400,400))
     
     tamdung=pygame.image.load('assets/pause.jpg').convert()
-    # tamdung=pygame.transform.scale2x(tamdung)
     tamdung_sunface=tamdung.get_rect(center=(400,400))
     
+    floor_top=pygame.image.load('assets/floor-top.png')
+    floor_top_sunface=floor_top.get_rect(midleft=(0,-7))
     
+    floor_bot=pygame.image.load('assets/floor-bot.png')
+    floor_bot_sunface=floor_bot.get_rect(midleft=(0,660))
     
     game_active=False
     pause=True
@@ -207,6 +227,8 @@ try:
     pause_pipe = False
     state=True
     while True:
+        screen.blit(floor_bot,floor_bot_sunface)
+        screen.blit(floor_top,floor_top_sunface)
         screen.blit(bg,(0,0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -316,9 +338,12 @@ try:
                 bom_list = move_bom(bom_list)
                 draw_bom(bom_list)
                 
-                for pipe in pipe_list :
-                    if pipe.centerx <=100 and pipe.centerx >=98:
-                        score+=1/2
+                if bird_alive:
+                    score=len([0 for pipe in pipe_list if pipe.centerx<=bird_rect.centerx])/2
+                if bird_alive1:    
+                    score1=len([0 for pipe in pipe_list if pipe.centerx<=bird_rect1.centerx])/2
+                        
+                
                 score_display('game alive')
                     
             else:
@@ -336,6 +361,7 @@ try:
         if floor_x <=-432:
             floor_x=0
             
+
         pygame.display.update()
         clock.tick(120)
 
