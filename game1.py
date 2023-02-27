@@ -39,9 +39,7 @@ try:
         global a
         for pipe in pipes :
             pipe.centerx -= 1 
-            # if pipe.centerx <=100 and pipe.centerx >=98:
-            #     score_sound.play()
-        a-=1
+        a-=1.131
         return pipes
     def draw_pipe(pipes):
         for pipe in pipes:
@@ -268,9 +266,9 @@ try:
                             sfx_swooshing_sound.play()
 
                         if event.key == pygame.K_d and game_active and bird_alive:
-                            bird_rect.centerx +=20
+                            bird_rect.centerx +=30
                         if event.key == pygame.K_a and game_active and bird_alive:
-                            bird_rect.centerx -=20
+                            bird_rect.centerx -=30
                         # bird 1
                         if event.key == pygame.K_KP_ENTER and game_active and bird_alive1:
 
@@ -279,9 +277,9 @@ try:
                             flap_sound.play()
                             sfx_swooshing_sound.play()
                         if event.key == pygame.K_RIGHT and game_active and bird_alive1:
-                            bird_rect1.centerx +=20
+                            bird_rect1.centerx +=30
                         if event.key == pygame.K_LEFT and game_active and bird_alive1:
-                            bird_rect1.centerx -=20
+                            bird_rect1.centerx -=30
             if event.type == spawnpipe:
                 
                 if a<700:
