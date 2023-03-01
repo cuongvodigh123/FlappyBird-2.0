@@ -40,7 +40,7 @@ try:
         global a
         for pipe in pipes :
             pipe.centerx -= 1.2
-        a-=100
+        a-=5
         return pipes
     def draw_pipe(pipes):
         for pipe in pipes:
@@ -140,6 +140,7 @@ try:
     pygame.mixer.pre_init(frequency=44100,size=-16, channels=2, buffer=512)
     pygame.init()
     screen = pygame.display.set_mode((864,768))
+    pygame.display.set_caption("Flappy Bird 2.0")
     clock=pygame.time.Clock()
     game_font = pygame.font.Font('04B_19.ttf',40)
 
@@ -195,7 +196,7 @@ try:
     spawnbom = pygame.USEREVENT+2
     delay_bom=1000
     pygame.time.set_timer(spawnbom, delay_bom)
-    bom_height=[50,100,150,200,250,300,350]
+    bom_height=[50,100,150,200,250]
 
     pygame.mixer.music.load('sound/nhac.wav')
     pygame.mixer.music.play(-1)
@@ -223,9 +224,9 @@ try:
     bird_alive=False
     bird_alive1=False
 
-    pause_pipe = False
+    pause_pipe = True
     state=True
-    p_on_off=True
+    
     while True:
         screen.blit(floor_bot,floor_bot_sunface)
         screen.blit(floor_top,floor_top_sunface)
@@ -236,11 +237,14 @@ try:
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p: 
+
+                    pause_pipe=False
                     state=False
                     pygame.display.flip()
                     pygame.event.pump() 
                     screen.blit(tamdung,tamdung_sunface)
                 if event.key == pygame.K_s: 
+                    pause_pipe=True
                     state=True
                 if state==True :
                     if event.type == pygame.KEYDOWN:
@@ -280,17 +284,17 @@ try:
                             bird_rect1.centerx +=100
                         if event.key == pygame.K_LEFT and game_active and bird_alive1:
                             bird_rect1.centerx -=100
-            if event.type == spawnpipe:
+            if event.type == spawnpipe and pause_pipe==True:
                 
                 if a<700:
                     pipe_list.extend(create_pipe())
-                    print("+1 pipe")
+                    # print("+1 pipe")
                     a=900
             if event.type == spawnbom:
                 if b>150:
                    bom_list.append(create_bom())
                    b=-10 
-                   print("+1 bom")
+                #    print("+1 bom")
             
             if event.type == birdflap:
                 if bird_index < 2:
@@ -308,9 +312,10 @@ try:
         if state==True:
             if game_active:
                 # print(pause)
-                    
-                pipe_list = move_pipe(pipe_list)
-                draw_pipe(pipe_list)
+                print(a)
+                if pause_pipe==True:    
+                    pipe_list = move_pipe(pipe_list)
+                    draw_pipe(pipe_list)
                 #chim 0
                 bird_movement += gravity
                 bird_rect.centery += bird_movement
