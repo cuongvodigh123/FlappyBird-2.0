@@ -4,6 +4,7 @@ try:
     
     import pygame, sys, random, time,threading   
     def delay_dead():
+        hit_sound.play()
         screen.blit(gameover,gameover_sunface)
         screen.blit(floor,(floor_x,650))
         screen.blit(floor,(floor_x+672,650)) 
@@ -18,9 +19,9 @@ try:
     def move_bom(boms):
         global b
         for bom in boms :
-            bom.centery += 1 
+            bom.centery += 1.4 
             
-        b+=1
+        b+=2.3
         return boms
 
     def draw_bom(boms):
@@ -32,14 +33,14 @@ try:
     def create_pipe():
         random_pipe_pos = random.choice(pipe_height)
         bottom_pipe = pipe_sunface.get_rect(midtop= (900,random_pipe_pos))
-        top_pipe = pipe_sunface.get_rect(midtop= (900,random_pipe_pos-690))
+        top_pipe = pipe_sunface.get_rect(midtop= (900,random_pipe_pos-650))
         return bottom_pipe, top_pipe
     a=900
     def move_pipe(pipes):
         global a
         for pipe in pipes :
-            pipe.centerx -= 1 
-        a-=1.131
+            pipe.centerx -= 1.2
+        a-=100
         return pipes
     def draw_pipe(pipes):
         for pipe in pipes:
@@ -166,7 +167,7 @@ try:
     spawnpipe = pygame.USEREVENT
     speed=1500
     pygame.time.set_timer(spawnpipe, speed)
-    pipe_height=[250,300,350,400,450,500]
+    pipe_height=[250,300,350,400,450,500,535]
     # both
     bird_index = 0    
     # bird 0
@@ -194,7 +195,7 @@ try:
     spawnbom = pygame.USEREVENT+2
     delay_bom=1000
     pygame.time.set_timer(spawnbom, delay_bom)
-    bom_height=[80,170,280,350]
+    bom_height=[50,100,150,200,250,300,350]
 
     pygame.mixer.music.load('sound/nhac.wav')
     pygame.mixer.music.play(-1)
@@ -224,6 +225,7 @@ try:
 
     pause_pipe = False
     state=True
+    p_on_off=True
     while True:
         screen.blit(floor_bot,floor_bot_sunface)
         screen.blit(floor_top,floor_top_sunface)
@@ -235,13 +237,11 @@ try:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p: 
                     state=False
-                    pause_pipe=True
                     pygame.display.flip()
                     pygame.event.pump() 
                     screen.blit(tamdung,tamdung_sunface)
                 if event.key == pygame.K_s: 
                     state=True
-                    pause_pipe=False
                 if state==True :
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_k and game_active==False:
@@ -266,9 +266,9 @@ try:
                             sfx_swooshing_sound.play()
 
                         if event.key == pygame.K_d and game_active and bird_alive:
-                            bird_rect.centerx +=30
+                            bird_rect.centerx +=100
                         if event.key == pygame.K_a and game_active and bird_alive:
-                            bird_rect.centerx -=30
+                            bird_rect.centerx -=100
                         # bird 1
                         if event.key == pygame.K_KP_ENTER and game_active and bird_alive1:
 
@@ -277,9 +277,9 @@ try:
                             flap_sound.play()
                             sfx_swooshing_sound.play()
                         if event.key == pygame.K_RIGHT and game_active and bird_alive1:
-                            bird_rect1.centerx +=30
+                            bird_rect1.centerx +=100
                         if event.key == pygame.K_LEFT and game_active and bird_alive1:
-                            bird_rect1.centerx -=30
+                            bird_rect1.centerx -=100
             if event.type == spawnpipe:
                 
                 if a<700:
@@ -322,7 +322,7 @@ try:
                 rotated_bird1 = rotate_bird(bird1)
                 screen.blit(rotated_bird1,bird_rect1)
                 
-                
+                # kiểm tra va chạm
                 if bird_alive:
                     bird_alive=check_collision(pipe_list,bom_list)
                 if bird_alive1:
@@ -337,10 +337,15 @@ try:
                 draw_bom(bom_list)
                 
                 if bird_alive:
-                    score=len([0 for pipe in pipe_list if pipe.centerx<=bird_rect.centerx])/2
+                    fake_score=len([0 for pipe in pipe_list if pipe.centerx<=bird_rect.centerx])/2
+                    if fake_score>score:
+                        score_sound.play()
+                        score=fake_score
                 if bird_alive1:    
-                    score1=len([0 for pipe in pipe_list if pipe.centerx<=bird_rect1.centerx])/2
-                        
+                    fake_score=len([0 for pipe in pipe_list if pipe.centerx<=bird_rect1.centerx])/2
+                    if fake_score>score1:
+                        score_sound.play()
+                        score1=fake_score    
                 
                 score_display('game alive')
                     
