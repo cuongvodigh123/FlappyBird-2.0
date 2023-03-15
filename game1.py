@@ -35,7 +35,7 @@ try:
         bottom_pipe = pipe_sunface.get_rect(midtop= (900,random_pipe_pos))
         top_pipe = pipe_sunface.get_rect(midtop= (900,random_pipe_pos-650))
         return bottom_pipe, top_pipe
-    a=900
+    a=850
     def move_pipe(pipes):
         global a
         for pipe in pipes :
@@ -289,7 +289,7 @@ try:
                 if a<700:
                     pipe_list.extend(create_pipe())
                     # print("+1 pipe")
-                    a=900
+                    a=850
             if event.type == spawnbom:
                 if b>150:
                    bom_list.append(create_bom())
@@ -312,7 +312,6 @@ try:
         if state==True:
             if game_active:
                 # print(pause)
-                print(a)
                 if pause_pipe==True:    
                     pipe_list = move_pipe(pipe_list)
                     draw_pipe(pipe_list)
