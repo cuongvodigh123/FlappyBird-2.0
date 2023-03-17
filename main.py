@@ -1,5 +1,5 @@
 from asyncio.windows_events import NULL
-
+# xin chao
 try:
     import pygame, sys, random, time,threading   
     from bird import Bird
