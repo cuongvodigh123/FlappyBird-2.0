@@ -1,5 +1,4 @@
 from asyncio.windows_events import NULL
-# xin chao
 try:
     import pygame, sys, random, time,threading   
     from bird import Bird
@@ -7,14 +6,8 @@ try:
     from bom import Bom
     from bg_floor import BG_FL
     from score_diem import Score
+    from trangthai import TT
     from sound import *
-    def delay_dead():
-        screen.blit(gameover,gameover_sunface)
-        screen.blit(bg_fl.floor,(bg_fl.floor_x,650))
-        screen.blit(bg_fl.floor,(bg_fl.floor_x+672,650)) 
-        pygame.event.pump()
-        pygame.display.flip()
-        pygame.time.delay(1000)
         
     pygame.init()
     screen = pygame.display.set_mode((864,768))
@@ -22,35 +15,25 @@ try:
     clock=pygame.time.Clock()
 
     gravity = 0.09
-
-    message_sunface = pygame.image.load('assets/message.png').convert_alpha()
-    message_sunface = pygame.transform.scale2x(message_sunface)
-    message=message_sunface.get_rect(center=(432,374))
-
     pipe=Pipe(screen)
     bom=Bom(screen)
-    bird=Bird(screen,0,'assets/yellowbird-downflap.png','assets/yellowbird-midflap.png','assets/yellowbird-upflap.png')
-    bird1=Bird(screen,0,'assets/redbird-downflap.png','assets/redbird-midflap.png','assets/redbird-upflap.png')
+    bird=Bird(screen,0,'assets/yellowbird-downflap.png','assets/yellowbird-midflap.png','assets/yellowbird-upflap.png',"yellow")
+    bird1=Bird(screen,0,'assets/redbird-downflap.png','assets/redbird-midflap.png','assets/redbird-upflap.png',"red")
     bg_fl = BG_FL(screen)
     score=Score()
+    tt=TT(screen)
     nhacnen(2)
-
-    gameover=pygame.image.load('assets/gameover.png').convert_alpha()
-    gameover=pygame.transform.scale2x(gameover)
-    gameover_sunface=gameover.get_rect(center=(400,400))
-
-    tamdung=pygame.image.load('assets/pause.png').convert_alpha()
-    tamdung_sunface=tamdung.get_rect(center=(400,400))
 
     game_active=False
     pause_sound=True
-    bird_alive=False
-    bird_alive1=False
 
     pause_pipe = True
     state=True
-
-    while True:
+    mau=0
+    mau1=0
+    while True:  
+        mau +=1
+        mau1 +=1
         screen.blit(bg_fl.floor_bot,bg_fl.floor_bot_sunface)
         screen.blit(bg_fl.floor_top,bg_fl.floor_top_sunface)
         screen.blit(bg_fl.bg,(0,0))
@@ -66,7 +49,7 @@ try:
                     state=False
                     pygame.display.flip()
                     pygame.event.pump() 
-                    screen.blit(tamdung,tamdung_sunface)
+                    screen.blit(tt.tamdung,tt.tamdung_sunface)
                 if event.key == pygame.K_s: 
                     pause_pipe=True
                     state=True
@@ -77,34 +60,32 @@ try:
                             pipe.pipe_list.clear()
                             bom.bom_list.clear()
                             
-                            bird_alive=True
                             bird.start()
                                 
-                            bird_alive1=True
                             bird1.start()
                         # bird 0
-                        if event.key == pygame.K_SPACE and game_active and bird_alive:
+                        if event.key == pygame.K_SPACE and game_active and bird.mau:
 
                             bird.bird_movement=0
-                            bird.bird_movement-=2
+                            bird.bird_movement-=2.5
                             flap()
                             swooshing()
 
-                        if event.key == pygame.K_d and game_active and bird_alive:
+                        if event.key == pygame.K_d and game_active and bird.mau:
                             bird.bird_rect.centerx +=100
-                        if event.key == pygame.K_a and game_active and bird_alive:
+                        if event.key == pygame.K_a and game_active and bird.mau:
                             bird.bird_rect.centerx -=100
                         # bird 1
-                        if event.key == pygame.K_KP_ENTER and game_active and bird_alive1:
+                        if event.key == pygame.K_KP_ENTER and game_active and bird1.mau:
 
                             bird1.bird_movement=0
-                            bird1.bird_movement-=2
+                            bird1.bird_movement-=2.5
                             
                             flap()
                             swooshing()
-                        if event.key == pygame.K_RIGHT and game_active and bird_alive1:
+                        if event.key == pygame.K_RIGHT and game_active and bird1.mau:
                             bird1.bird_rect.centerx +=100
-                        if event.key == pygame.K_LEFT and game_active and bird_alive1:
+                        if event.key == pygame.K_LEFT and game_active and bird1.mau:
                             bird1.bird_rect.centerx -=100
             if event.type == pipe.spawnpipe and pause_pipe==True: 
                 pipe.add_pipe()
@@ -128,26 +109,34 @@ try:
                     pipe.draw_pipe()
                     bom.move_bom()
                     bom.draw_bom()
-            
+                            
                 bird.fall(gravity)
                 bird1.fall(gravity)
 
                 # kiểm tra va chạm
-                if bird_alive:
-                    bird_alive=bird.check_collision(pipe.pipe_list,bom.bom_list,bg_fl.floor_top_sunface,bg_fl.floor_bot_sunface)
-                if bird_alive1:
-                    bird_alive1=bird1.check_collision(pipe.pipe_list,bom.bom_list,bg_fl.floor_top_sunface,bg_fl.floor_bot_sunface)
-                if bird_alive==False and bird_alive1==False:
-                    delay_dead()
+                # print(bird.mau)
+                if bird.mau>0:  
+                    alive=bird.check_collision(pipe.pipe_list,bom.bom_list,bg_fl.floor_top_sunface,bg_fl.floor_bot_sunface)
+                    if mau>=120 and alive==False:
+                        mau=0
+                        bird.mau-=1
+                if bird1.mau>0:  
+                    alive=bird1.check_collision(pipe.pipe_list,bom.bom_list,bg_fl.floor_top_sunface,bg_fl.floor_bot_sunface)
+                    if mau1>=120 and alive==False:
+                        mau1=0
+                        bird1.mau-=1
+                        
+                if bird.mau==0 and bird1.mau==0:
+                    tt.delay_dead(bg_fl)
                     game_active=False
 
-                if bird_alive:
+                if bird.mau:
                     fake_score=len([0 for pipe in pipe.pipe_list if pipe.centerx<=bird.bird_rect.centerx])/2
                     if fake_score>score.score:
                         score_sound()
                         score.score=fake_score
                         
-                if bird_alive1:    
+                if bird1.mau:    
                     fake_score=len([0 for pipe in pipe.pipe_list if pipe.centerx<=bird1.bird_rect.centerx])/2
                     if fake_score>score.score1:
                         score_sound()
@@ -155,11 +144,11 @@ try:
                 
                 score.score_display(screen,'game alive')
             else:
-                    screen.blit(message_sunface,message)
+                    screen.blit(tt.message_sunface,tt.message)
                     score.update_score()
                     score.score_display(screen,'game over')
         else:
-            screen.blit(tamdung,tamdung_sunface)
+            screen.blit(tt.tamdung,tt.tamdung_sunface)
             
         bg_fl.move_san()
             
