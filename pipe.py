@@ -23,7 +23,7 @@ class Pipe:
     def move_pipe(self):
         if self.pause ==True:
             for pipe in self.pipe_list:
-                pipe.centerx -= 2
+                pipe.centerx -= 1.2
             
     def draw_pipe(self):
         for pipe in self.pipe_list:

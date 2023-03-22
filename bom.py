@@ -20,7 +20,7 @@ class Bom:
     def move_bom(self):
         if self.pause == True:
             for bom in self.bom_list :
-                bom.centery += 1
+                bom.centery += 1.4
     def draw_bom(self):
         for bom in self.bom_list:
             self.screen.blit(self.bom_sunface,bom)

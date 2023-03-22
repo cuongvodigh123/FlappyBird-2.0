@@ -73,7 +73,7 @@ try:
                         if event.key == pygame.K_SPACE and game_active and bird.mau:
 
                             bird.bird_movement=0
-                            bird.bird_movement-=4
+                            bird.bird_movement-=3
                             flap()
                             swooshing()
 
@@ -85,7 +85,7 @@ try:
                         if event.key == pygame.K_KP_ENTER and game_active and bird1.mau:
 
                             bird1.bird_movement=0
-                            bird1.bird_movement-=4
+                            bird1.bird_movement-=3
                             
                             flap()
                             swooshing()
