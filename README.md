@@ -1,6 +1,6 @@
 # test
 hướng dẫn chơi game
-nút P tạm dừng, nút s tiếp tục
+nút P tạm dừng
 nút k bắt đầu game mới
 
 game 2 chim đỏ và vàng:

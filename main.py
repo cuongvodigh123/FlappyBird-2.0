@@ -8,7 +8,7 @@ try:
     from score_diem import Score
     from trangthai import TT
     from sound import *
-        
+    
     pygame.init()
     screen = pygame.display.set_mode((864,768))
     pygame.display.set_caption("Flappy Bird 2.0")
@@ -27,6 +27,8 @@ try:
     game_active=False
     pause_sound=True
 
+    pause = False
+    
     state=True
     mau=0
     mau1=0
@@ -43,16 +45,19 @@ try:
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p: 
-                    bom.pause = False
-                    pipe.pause = False
-                    state=False
-                    pygame.display.flip()
-                    pygame.event.pump() 
-                    screen.blit(tt.tamdung,tt.tamdung_sunface)
-                if event.key == pygame.K_s: 
-                    bom.pause=True
-                    pipe.pause=True
-                    state=True
+                    if pause == False:
+                        pause = True
+                        bom.pause = False
+                        pipe.pause = False
+                        state=False
+                        pygame.display.flip()
+                        pygame.event.pump() 
+                        screen.blit(tt.tamdung,tt.tamdung_sunface)
+                    else:
+                        pause = False
+                        bom.pause=True
+                        pipe.pause=True
+                        state=True
                 if state==True :
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_k and game_active==False:
@@ -67,7 +72,7 @@ try:
                         if event.key == pygame.K_SPACE and game_active and bird.mau:
 
                             bird.bird_movement=0
-                            bird.bird_movement-=2.5
+                            bird.bird_movement-=3
                             flap()
                             swooshing()
 
@@ -79,7 +84,7 @@ try:
                         if event.key == pygame.K_KP_ENTER and game_active and bird1.mau:
 
                             bird1.bird_movement=0
-                            bird1.bird_movement-=2.5
+                            bird1.bird_movement-=3
                             
                             flap()
                             swooshing()
