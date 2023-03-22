@@ -27,7 +27,6 @@ try:
     game_active=False
     pause_sound=True
 
-    pause_pipe = True
     state=True
     mau=0
     mau1=0
@@ -44,14 +43,15 @@ try:
             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p: 
-
-                    pause_pipe=False
+                    bom.pause = False
+                    pipe.pause = False
                     state=False
                     pygame.display.flip()
                     pygame.event.pump() 
                     screen.blit(tt.tamdung,tt.tamdung_sunface)
                 if event.key == pygame.K_s: 
-                    pause_pipe=True
+                    bom.pause=True
+                    pipe.pause=True
                     state=True
                 if state==True :
                     if event.type == pygame.KEYDOWN:
@@ -87,14 +87,11 @@ try:
                             bird1.bird_rect.centerx +=100
                         if event.key == pygame.K_LEFT and game_active and bird1.mau:
                             bird1.bird_rect.centerx -=100
-            if event.type == pipe.spawnpipe and pause_pipe==True: 
-                pipe.add_pipe()
-            if event.type == bom.spawnbom and pause_pipe==True:
-                bom.add_bom()
             if event.type == bird.birdflap:
                 bird.bird_animation()
                 bird1.bird_animation()
-        
+        bom.add_bom()        
+        pipe.add_pipe()
         if pause_sound==False and game_active==False:
             nhacnen(1)
             pause_sound=True
@@ -103,18 +100,19 @@ try:
             pause_sound=False
         if state==True:
             if game_active:
-                # print(pause)
-                if pause_pipe==True:
-                    pipe.move_pipe()
-                    pipe.draw_pipe()
-                    bom.move_bom()
-                    bom.draw_bom()
+                
+                pipe.move_pipe()
+                pipe.draw_pipe()
+                
+                pipe.update_pipe(score.score if score.score>score.score1 else score.score1)
+                
+                bom.move_bom()
+                bom.draw_bom()
                             
                 bird.fall(gravity)
                 bird1.fall(gravity)
 
                 # kiểm tra va chạm
-                # print(bird.mau)
                 if bird.mau>0:  
                     alive=bird.check_collision(pipe.pipe_list,bom.bom_list,bg_fl.floor_top_sunface,bg_fl.floor_bot_sunface)
                     if mau>=120 and alive==False:
