@@ -6,13 +6,10 @@ class Bom:
         self.b=-10
         self.bom_sunface = pygame.image.load('assets/boom.png').convert_alpha()
         self.bom_list= []
-        self.spawnbom = pygame.USEREVENT+2
-        self.delay_bom=1000
-        pygame.time.set_timer(self.spawnbom, self.delay_bom)
-        self.bom_height=[50,100,150,200,250]
+        self.bom_height=[0,50,100,150,200,250]
     def add_bom(self):
         if self.pause == True:
-            if self.b==145:
+            if self.b==155:
                 self.create_bom()
                 self.b=-10
             self.b+=1
@@ -23,7 +20,7 @@ class Bom:
     def move_bom(self):
         if self.pause == True:
             for bom in self.bom_list :
-                bom.centery += 1.4 
+                bom.centery += 1
     def draw_bom(self):
         for bom in self.bom_list:
             self.screen.blit(self.bom_sunface,bom)

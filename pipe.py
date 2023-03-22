@@ -8,9 +8,6 @@ class Pipe:
         self.pipe_sunface = pygame.image.load('assets/pipe-green.png').convert()
         self.pipe_sunface= pygame.transform.scale2x(self.pipe_sunface)
         self.pipe_list= []
-        self.spawnpipe = pygame.USEREVENT
-        self.speed=1500
-        pygame.time.set_timer(self.spawnpipe, self.speed)
         self.pipe_height=[250,300,350,400,450,500,535]
     def add_pipe(self):
         if self.pause == True:           
@@ -25,8 +22,8 @@ class Pipe:
         self.pipe_list.extend((bottom_pipe, top_pipe))
     def move_pipe(self):
         if self.pause ==True:
-            for pipe in self.pipe_list :
-                pipe.centerx -= 1.2
+            for pipe in self.pipe_list:
+                pipe.centerx -= 2
             
     def draw_pipe(self):
         for pipe in self.pipe_list:
