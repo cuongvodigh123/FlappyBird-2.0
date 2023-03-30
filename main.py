@@ -8,7 +8,7 @@ try:
     from score_diem import Score
     from trangthai import TT
     from sound import *
-    
+    from hoimau import HoiMau
 
     pygame.init()
     screen = pygame.display.set_mode((864,768))
@@ -21,7 +21,9 @@ try:
     bird=Bird(screen,0,'assets/yellowbird-downflap.png','assets/yellowbird-midflap.png','assets/yellowbird-upflap.png',"yellow")
     bird1=Bird(screen,0,'assets/redbird-downflap.png','assets/redbird-midflap.png','assets/redbird-upflap.png',"red")
     bg_fl = BG_FL(screen)
+    hoimau=HoiMau(screen)
     score=Score()
+    
     tt=TT(screen)
     nhacnen(2)
 
@@ -50,6 +52,7 @@ try:
                         pause = True
                         bom.pause = False
                         pipe.pause = False
+                        hoimau.pause = False
                         state=False
                         pygame.display.flip()
                         pygame.event.pump() 
@@ -58,6 +61,7 @@ try:
                         pause = False
                         bom.pause=True
                         pipe.pause=True
+                        hoimau.pause=True
                         state=True
                 if state==True :
                     if event.type == pygame.KEYDOWN:
@@ -65,7 +69,7 @@ try:
                             game_active=True
                             pipe.pipe_list.clear()
                             bom.bom_list.clear()
-                            
+                            hoimau.mau_list.clear()
                             bird.start()
                                 
                             bird1.start()
@@ -98,6 +102,7 @@ try:
                 bird1.bird_animation()
         bom.add_bom()        
         pipe.add_pipe()
+        hoimau.add_mau()
         if pause_sound==False and game_active==False:
             nhacnen(1)
             pause_sound=True
@@ -108,7 +113,10 @@ try:
             if game_active:
                 
                 pipe.move_pipe()
-                pipe.draw_pipe()
+                pipe.draw_pipe()                
+                
+                hoimau.move_mau()
+                hoimau.draw_mau()
                 
                 pipe.update_pipe(score.score if score.score>score.score1 else score.score1)
                 
@@ -117,6 +125,9 @@ try:
                             
                 bird.fall(gravity)
                 bird1.fall(gravity)
+                
+                bird.hoimau(hoimau.mau_list)
+                bird1.hoimau(hoimau.mau_list)
 
                 # kiểm tra va chạm
                 if bird.mau>0:  

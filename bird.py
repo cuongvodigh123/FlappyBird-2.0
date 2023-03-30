@@ -29,7 +29,6 @@ class Bird:
         self.bird_rect.centery += self.bird_movement
         self.rotate_bird()
     def bird_animation(self):
-        # chim 1
         if self.bird_index < 2:
             self.bird_index +=1
         else:  
@@ -44,11 +43,18 @@ class Bird:
         self.heal.heal = self.heal.heal_list[self.heal.heal_index]
         self.screen.blit(self.heal.heal,self.heal.heal_rect)
         self.screen.blit(new_bird,self.bird_rect)
+    def hoimau(self,hoimaus):
+        for mau in hoimaus:
+            if self.bird_rect.colliderect(mau):
+                hoimaus.remove(mau)
+                if self.mau>0 and self.mau<3:
+                    self.mau+=1
     def check_collision(self,pipes,boms,floor_top_sunface,floor_bot_sunface):
         for bom in boms:
             if self.bird_rect.colliderect(bom):
                 self.bird_movement=1
                 hit()
+                boms.remove(bom)
                 return False
         for pipe in pipes:
             if self.bird_rect.colliderect(pipe):
