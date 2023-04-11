@@ -16,6 +16,7 @@ try:
     clock=pygame.time.Clock()
 
     gravity = 0.09
+    # khai báo các biến
     pipe=Pipe(screen)
     bom=Bom(screen)
     bird=Bird(screen,0,'assets/yellowbird-downflap.png','assets/yellowbird-midflap.png','assets/yellowbird-upflap.png',"yellow")
@@ -111,7 +112,7 @@ try:
             pause_sound=False
         if state==True:
             if game_active:
-                
+                # khởi tạo 
                 pipe.move_pipe()
                 pipe.draw_pipe()                
                 

@@ -1,3 +1,4 @@
+# cơ chế tương tụ bom
 import pygame, sys, random, time,threading  
 class HoiMau:
     def __init__(self,screen):

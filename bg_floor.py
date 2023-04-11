@@ -1,3 +1,5 @@
+# mặt đất
+
 import pygame, sys, random, time,threading  
 class BG_FL:
     def __init__(self,screen):

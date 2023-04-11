@@ -5,8 +5,8 @@ class Pipe:
         self.moc_tao_pipe = 700
         self.a=800
         self.screen=screen
-        self.pipe_sunface = pygame.image.load('assets/pipe-green.png').convert()
-        self.pipe_sunface= pygame.transform.scale2x(self.pipe_sunface)
+        self.pipe = pygame.image.load('assets/pipe-green.png').convert()
+        self.pipe_sunface= pygame.transform.scale2x(self.pipe)
         self.pipe_list= []
         self.pipe_height=[250,300,350,400,450,500,535]
     def add_pipe(self):
@@ -33,8 +33,8 @@ class Pipe:
                 flip_pipe = pygame.transform.flip(self.pipe_sunface,False,True)
                 self.screen.blit(flip_pipe,pipe)
     def update_pipe(self,score):
-        if self.moc_tao_pipe == 770:
+        if self.moc_tao_pipe >= 780:
             return
-        self.moc_tao_pipe = 700 + score*2 
-        # print(self.moc_tao_pipe)
+        else:
+            self.moc_tao_pipe = 700 + score*2
     

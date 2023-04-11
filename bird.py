@@ -1,3 +1,4 @@
+#chim
 import pygame, sys, random, time,threading  
 from sound import *
 from heal import Heal
@@ -19,15 +20,18 @@ class Bird:
             self.heal = Heal(100,20)
         else:
             self.heal = Heal(620,20)
+    # hàm khởi tạo khi bắt đầu
     def start(self):
         self.bird_movement=0
         self.bird_rect.center=(100,324)
         self.heal.heal_index = 3
         self.mau=3
+    # trọng lực
     def fall(self,gravity):
         self.bird_movement += gravity
         self.bird_rect.centery += self.bird_movement
         self.rotate_bird()
+    # hoạt ảnh chim đập cánh
     def bird_animation(self):
         if self.bird_index < 2:
             self.bird_index +=1
@@ -37,6 +41,7 @@ class Bird:
         new_bird_rect = new_bird.get_rect(center= (self.bird_rect.centerx,self.bird_rect.centery))
         
         self.bird, self.bird_rect =new_bird, new_bird_rect
+    # tạo chuyển động chim và số máu
     def rotate_bird(self):
         new_bird = pygame.transform.rotozoom(self.bird,-self.bird_movement*4,1)
         self.heal.heal_index = self.mau 
@@ -49,6 +54,7 @@ class Bird:
                 hoimaus.remove(mau)
                 if self.mau>0 and self.mau<3:
                     self.mau+=1
+    # va chạm
     def check_collision(self,pipes,boms,floor_top_sunface,floor_bot_sunface):
         for bom in boms:
             if self.bird_rect.colliderect(bom):

@@ -19,4 +19,3 @@ class TT:
         pygame.event.pump()
         pygame.display.flip()
         pygame.time.delay(1000)
-        
