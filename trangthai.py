@@ -17,6 +17,9 @@ class TT:
 
         self.tamdung=pygame.image.load('assets/pause.png').convert_alpha()
         self.tamdung_sunface=self.tamdung.get_rect(center=(400,400))
+        
+        self.tamdung1=pygame.image.load('assets/button_pause.png').convert_alpha()
+        self.tamdung_sunface1=self.tamdung1.get_rect(center=(432,30))
     def delay_dead(self,bg_fl):
         self.screen.blit(self.gameover,self.gameover_sunface)
         self.screen.blit(bg_fl.floor,(bg_fl.floor_x,650))

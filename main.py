@@ -46,6 +46,32 @@ try:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1 and (tt.message.collidepoint(event.pos) or tt.message1.collidepoint(event.pos)) and game_active == False:
+                    if quantity_player == 1:
+                        quantity_player=2
+                    else:
+                        quantity_player=1
+                if event.button == 1 and tt.tamdung_sunface1.collidepoint(event.pos) and game_active == True:
+                    if pause == False:
+                        pause = True
+                        bom.pause = False
+                        pipe.pause = False
+                        hoimau.pause = False
+                        state=False
+                        pygame.display.flip()
+                        pygame.event.pump() 
+                        screen.blit(tt.tamdung,tt.tamdung_sunface)
+                    else:
+                        mau=0
+                        mau1=0
+                        
+                        pause = False
+                        bom.pause=True
+                        pipe.pause=True
+                        hoimau.pause=True
+                        state=True
+                
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_TAB and game_active == False:
                     if quantity_player == 1:
@@ -182,6 +208,7 @@ try:
                     score.number_score+=10
                     
                 score.score_display(screen,'game alive',quantity_player)
+                screen.blit(tt.tamdung1,tt.tamdung_sunface1)
             else:
                     if quantity_player == 2:
                         screen.blit(tt.message_sunface,tt.message)
@@ -191,6 +218,7 @@ try:
                     score.update_score(quantity_player)
                     score.score_display(screen,'game over',quantity_player)
         else:
+            screen.blit(tt.tamdung1,tt.tamdung_sunface1)
             screen.blit(tt.tamdung,tt.tamdung_sunface)
             
         bg_fl.move_san()
