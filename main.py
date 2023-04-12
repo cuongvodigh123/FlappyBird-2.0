@@ -94,7 +94,7 @@ try:
                         if event.key == pygame.K_a and game_active and bird.mau:
                             bird.bird_rect.centerx -=100
                         # bird 1
-                        if event.key == pygame.K_KP_ENTER and game_active and bird1.mau and quantity_player==2:
+                        if (event.key == pygame.K_KP_ENTER or event.key == pygame.K_RETURN) and game_active and bird1.mau and quantity_player==2:
 
                             bird1.bird_movement=0
                             bird1.bird_movement-=3
