@@ -1,4 +1,5 @@
 import pygame, sys, random, time,threading
+game_font = pygame.font.Font('04B_19.ttf',40)
 class TT:
     def __init__(self,screen):
         self.screen = screen
@@ -19,3 +20,7 @@ class TT:
         pygame.event.pump()
         pygame.display.flip()
         pygame.time.delay(1000)
+    def number_player(self,quantity_player):
+        number_sunface = game_font.render(f'{quantity_player} player',True,(0,0,0))
+        number_rect = number_sunface.get_rect(center=(430,580))
+        self.screen.blit(number_sunface,number_rect)

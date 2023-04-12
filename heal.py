@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys, random, time,threading
 class Heal:
     def __init__(self,x,y):
         self.heal0 = pygame.image.load("assets/nothing.png").convert_alpha()
