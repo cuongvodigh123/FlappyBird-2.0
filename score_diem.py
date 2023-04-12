@@ -5,6 +5,7 @@ class Score:
         self.score = 0
         self.score1 = 0
         self.hight_score=0
+        self.number_score=10
     def score_display(self,screen,state,quantity_player):
         if state== 'game alive':
             score_sunface = game_font.render(str(int(self.score)),True,(255,255,0))
@@ -35,4 +36,5 @@ class Score:
                 self.hight_score=self.score1
         self.score=0
         self.score1=0
+        self.number_score=10
         return self.hight_score

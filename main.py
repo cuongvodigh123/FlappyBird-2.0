@@ -37,13 +37,11 @@ try:
     state=True
     mau=0
     mau1=0
-
-    while True:  
-        mau +=1
-        mau1 +=1
+    
+    while True:       
         screen.blit(bg_fl.floor_bot,bg_fl.floor_bot_sunface)
         screen.blit(bg_fl.floor_top,bg_fl.floor_top_sunface)
-        screen.blit(bg_fl.bg,(0,0))
+        bg_fl.update_bg()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -54,7 +52,7 @@ try:
                         quantity_player=2
                     else:
                         quantity_player=1
-                if event.key == pygame.K_p: 
+                if event.key == pygame.K_p and game_active == True: 
                     if pause == False:
                         pause = True
                         bom.pause = False
@@ -65,6 +63,9 @@ try:
                         pygame.event.pump() 
                         screen.blit(tt.tamdung,tt.tamdung_sunface)
                     else:
+                        mau=0
+                        mau1=0
+                        
                         pause = False
                         bom.pause=True
                         pipe.pause=True
@@ -119,13 +120,15 @@ try:
             pause_sound=False
         if state==True:
             if game_active:
-                
-                pipe.move_pipe()
-                pipe.draw_pipe()                
+                mau +=1
+                mau1 +=1
                 
                 hoimau.move_mau()
-                hoimau.draw_mau()
-                
+                hoimau.draw_mau()   
+                             
+                pipe.move_pipe()
+                pipe.draw_pipe()                
+            
                 pipe.update_pipe(score.score if score.score>score.score1 else score.score1)
                 
                 bom.move_bom()
@@ -139,6 +142,7 @@ try:
                 if quantity_player ==2: 
                     bird1.hoimau(hoimau.mau_list)
 
+                
                 # kiểm tra va chạm
                 if bird.mau>0:  
                     alive=bird.check_collision(pipe.pipe_list,bom.bom_list,bg_fl.floor_top_sunface,bg_fl.floor_bot_sunface)
@@ -172,10 +176,17 @@ try:
                         if fake_score>score.score1:
                             score_sound()
                             score.score1=fake_score    
-                
+                k=score.score+score.score1
+                if score.number_score==k:
+                    bg_fl.a+=1
+                    score.number_score+=10
+                    
                 score.score_display(screen,'game alive',quantity_player)
             else:
-                    screen.blit(tt.message_sunface,tt.message)
+                    if quantity_player == 2:
+                        screen.blit(tt.message_sunface,tt.message)
+                    else:
+                        screen.blit(tt.message_sunface1,tt.message1)
                     tt.number_player(quantity_player)
                     score.update_score(quantity_player)
                     score.score_display(screen,'game over',quantity_player)

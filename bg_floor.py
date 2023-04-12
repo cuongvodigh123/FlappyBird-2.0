@@ -4,8 +4,16 @@ import pygame, sys, random, time,threading
 class BG_FL:
     def __init__(self,screen):
         self.screen = screen
+        
+        self.a=1
+        self.ok=True
+        
         self.bg= pygame.image.load('assets/background-night.png').convert()
         self.bg = pygame.transform.scale2x(self.bg)
+        
+        self.bg1= pygame.image.load('assets/background-dark.png').convert()
+        self.bg1 = pygame.transform.scale2x(self.bg1)
+        
         self.floor= pygame.image.load('assets/floor.png').convert()
         self.floor= pygame.transform.scale2x(self.floor)
         self.floor_x=0
@@ -14,6 +22,11 @@ class BG_FL:
 
         self.floor_bot=pygame.image.load('assets/floor-bot.png')
         self.floor_bot_sunface=self.floor_bot.get_rect(midleft=(0,660))
+    def update_bg(self):
+        if self.a %2==0:
+            self.screen.blit(self.bg1,(0,0))
+        elif self.a %2==1:
+            self.screen.blit(self.bg,(0,0))
     def ve_san(self):
         self.screen.blit(self.floor,(self.floor_x,650))
         self.screen.blit(self.floor,(self.floor_x+672,650))  
@@ -22,3 +35,4 @@ class BG_FL:
         self.ve_san()
         if self.floor_x <=-432:
             self.floor_x=0
+    
