@@ -58,7 +58,6 @@ class Bird:
     def check_collision(self,pipes,boms,floor_top_sunface,floor_bot_sunface):
         for bom in boms:
             if self.bird_rect.colliderect(bom):
-                self.bird_movement=1
                 hit()
                 boms.remove(bom)
                 return False
