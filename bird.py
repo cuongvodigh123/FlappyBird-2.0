@@ -56,21 +56,21 @@ class Bird:
                     self.mau+=1
     # va chạm
     def check_collision(self,pipes,boms,floor_top_sunface,floor_bot_sunface):
-        for bom in boms:
-            if self.bird_rect.colliderect(bom):
-                hit()
-                boms.remove(bom)
-                return False
-        for pipe in pipes:
-            if self.bird_rect.colliderect(pipe):
-                self.bird_movement=1
-                hit()
-                return False
-        if self.bird_rect.centery <=0 or self.bird_rect.centery >=650:
-                return False
-        if self.bird_rect.colliderect(floor_top_sunface) or self.bird_rect.colliderect(floor_bot_sunface):
-                self.bird_movement=1
-                hit()
-                return False
+        # for bom in boms:
+        #     if self.bird_rect.colliderect(bom):
+        #         hit()
+        #         boms.remove(bom)
+        #         return False
+        # for pipe in pipes:
+        #     if self.bird_rect.colliderect(pipe):
+        #         self.bird_movement=1
+        #         hit()
+        #         return False
+        # if self.bird_rect.centery <=0 or self.bird_rect.centery >=650:
+        #         return False
+        # if self.bird_rect.colliderect(floor_top_sunface) or self.bird_rect.colliderect(floor_bot_sunface):
+        #         self.bird_movement=1
+        #         hit()
+        #         return False
         return True
     

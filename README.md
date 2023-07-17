@@ -10,5 +10,5 @@ chim vàng:
 chim đỏ:
 	enter bên bàn phím numlK
 	mũi tên <- và -> để di chuyển
-
+thêm chế độ 1 và 2 người chơi
 mỗi con chim có 3 mạng, mỗi lần va chạm có 1s bất tử

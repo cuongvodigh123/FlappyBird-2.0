@@ -100,6 +100,7 @@ try:
                 if state==True :
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_k and game_active==False:
+                            print("bắt đầu")
                             game_active=True
                             pipe.pipe_list.clear()
                             bom.bom_list.clear()

@@ -34,6 +34,7 @@ class Pipe:
                 self.screen.blit(flip_pipe,pipe)
     def update_pipe(self,score):
         if self.moc_tao_pipe >= 780:
+            # self.moc_tao_pipe = 780
             return
         else:
             self.moc_tao_pipe = 700 + score*2
